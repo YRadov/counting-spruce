@@ -269,6 +269,19 @@ function deleteTotalData()
 
     }
 }
+
+//перемотка к текущему элементу
+function scrollVisible(current_elem)
+{
+    //позиция текущего элемента
+    console.log($(current_elem).offset().top);
+    var current_position = $(current_elem).offset().top;
+    position = current_position - 80;
+    $('body,html').animate({
+        scrollTop: position
+    }, 600);
+
+}
 //************************************************
 //*******ПРОГРАММА********************************
 //************************************************
@@ -394,12 +407,7 @@ $(".numbers td").click(function(){
             newFieldVal = '';
 
             //позиция текущего элемента
-            console.log($(current_elem).offset().top);
-
-            position += shift;
-            $('body,html').animate({
-                scrollTop: position
-            }, 600);
+            scrollVisible(current_elem);
         }
         else
         {
@@ -421,7 +429,7 @@ $(".numbers td").click(function(){
         if($(current_elem).attr('id') !== 'diam8')
         {
             var next_elem = $(current_elem).parent().parent().prev().find("input:first");
-            console.log('Значение текущего элемента = '+next_elem.val());
+            //console.log('Значение текущего элемента = '+next_elem.val());
 
             //переназначаем текущий элемент
             current_elem = next_elem;
@@ -435,15 +443,7 @@ $(".numbers td").click(function(){
             newFieldVal = '';
 
             //позиция текущего элемента
-            console.log($(current_elem).offset().top);
-
-            position -= shift;
-            $('body,html').animate({
-                scrollTop: position
-            }, 600);
-
-
-
+            scrollVisible(current_elem);
         }
         else
         {

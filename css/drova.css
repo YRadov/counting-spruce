@@ -126,7 +126,24 @@ label {
 .param {
   display: inline-block;
   font-size: 20px;
-  width: 90px;
+  height: 25px;
+  width: 80px;
+  padding: 0;
+  text-align: center;
+}
+#diam_total {
+  width: 50px;
+}
+#val_total {
+  width: 75px;
+}
+#aver_diam {
+  width: 60px;
+}
+.total {
+  font-size: 18px;
+  height: 25px;
+  width: 65px;
 }
 .right {
   float: right;
@@ -189,7 +206,7 @@ label {
   border-radius: 5px;
   margin: 0 auto;
   max-width: 320px;
-  padding: 80px 10px 10px 10px;
+  padding: 40px 10px 10px 10px;
   position: relative;
 }
 .numbers {
@@ -247,10 +264,10 @@ label {
 }
 .melcodrev-total {
   background-color: #28b4cc;
-  border-bottom: 2px solid red;
+  border-top: 1px solid red;
+  border-bottom: 4px solid red;
   font-size: 20px;
   text-align: center;
-  padding-bottom: 15px;
   position: fixed;
   top: 0;
   width: 100%;

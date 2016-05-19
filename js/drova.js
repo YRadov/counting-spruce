@@ -33,8 +33,6 @@ var LM_3_7 = [];
 var LM_3_8 = [];
 var LM_3_9 = [];
 
-//для фокусировки на след/пред поле
-var on_focus_elem;
 //текущщее поле ввода количества
 var current_elem;
 //изменение кол-ва с пом. вирт. клавиатуры
@@ -263,6 +261,13 @@ function deleteTotalData()
 
     }
 }
+
+//скрол в зону видимости
+function scrollVisible(current_elem)
+{
+    var id = $(current_elem).attr('id');
+    console.log(id);
+}
 //************************************************
 //*******ПРОГРАММА********************************
 //************************************************
@@ -271,9 +276,8 @@ function deleteTotalData()
  * первый элемент получает фокус
  */
 $(window).load(function(){
-    $('#diam8').trigger('focus');
-    on_focus_elem = $(window.document.activeElement);
-    current_elem = on_focus_elem;
+    $('#diam8').css('color','red').trigger('focus');
+    current_elem = $('#diam8');
 });
 /**
  * при клике на ячейку она получает фокус
@@ -286,11 +290,6 @@ $('.diam').click(function(){
     newFieldVal = '';
 });
 //******************************************************
-
-//qtyTotal = 0;
-//valTotal = 0;
-//diamTotal = 0;
-
 /**
  * Если есть данные в хранилище, инициализируем
  * все переменные сохраненными данными
@@ -315,6 +314,7 @@ else
 {
     errorMessages('Пустой контейнер');
 }
+
 //******************************************************
 //сохранение общих данных
 $('.save-data').click(function(){
@@ -386,6 +386,16 @@ $(".numbers td").click(function(){
 
             //сброс нового кол-вы для след. поля
             newFieldVal = '';
+
+            //скрол в зону видимости
+            scrollVisible(current_elem);
+
+            $('body,html').animate({
+                scrollTop: 50
+            }, 600);
+
+            //позиция текущего элемента
+            alert($(current_elem).screenTop);
         }
         else
         {
@@ -407,7 +417,7 @@ $(".numbers td").click(function(){
         if($(current_elem).attr('id') !== 'diam8')
         {
             var next_elem = $(current_elem).parent().parent().prev().find("input:first");
-            console.log('Значение текущего элемента = '+next_elem.val());
+            //console.log('Значение текущего элемента = '+next_elem.val());
 
             //переназначаем текущий элемент
             current_elem = next_elem;
@@ -420,6 +430,8 @@ $(".numbers td").click(function(){
             //сброс нового кол-вы для след. поля
             newFieldVal = '';
 
+            //скрол в зону видимости
+            scrollVisible(current_elem);
         }
         else
         {

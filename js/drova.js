@@ -339,6 +339,8 @@ $(".numbers td").click(function(){
                 //общие расчеты после
                 // каждого изменения поля
                 Calculation();
+                //новое значение для заполнения поля
+                newFieldVal = $(current_elem).val();
             }
             else
             {
@@ -346,6 +348,9 @@ $(".numbers td").click(function(){
                 //общие расчеты после
                 // каждого изменения поля
                 Calculation();
+                //новое значение для заполнения поля(пустое)
+                newFieldVal = '';
+
             }
         }
     }

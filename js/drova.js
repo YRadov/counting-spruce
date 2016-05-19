@@ -5,24 +5,11 @@
 //localStorage.clear();
 //showWebStoreData();
 
-
-//Длина загружаемого леса
-var Len = 0;
-
-//Номер бревна попорядку
-var N = 1;
-
 //Диаметр бревна
 var D = 0;
 
 //Объем бревна заданного диаметра
 var V = 0;
-
-//Общий массив загрузки
-var Partia = [];
-
-//Для таблицы объем загруженных бревен
-var tempTotalVal = 0;
 
 //Массивы соответствий D:V для разных длин
 var L_3_8 = [];
@@ -31,10 +18,6 @@ var LM_2_9 = [];
 var LM_3_7 = [];
 var LM_3_8 = [];
 var LM_3_9 = [];
-//Набор диаметра с собственной клавиатуры
-var Diam = '';
-//Набор диаметра с клавиатуры телефона
-var temp_diam;
 
 //для фокусировки на след/пред поле
 var on_focus_elem;
@@ -150,50 +133,13 @@ $('.diam').click(function(){
     //сброс нового кол-вы для след. поля
     newFieldVal = '';
 });
-//ВВОД ДИАМЕТРА СЛЕДУЮЩЕГО БРЕВНА
-//ВВОД С КЛАВИАТУРЫ УСТРОЙСТВА
-$('#diam').keyup(function(){
-
-    temp_diam = $(this).val();
-
-    //Пропускаем только четные значения
-    if( !(temp_diam%2) )
-    {
-        D = $(this).val();
-        //Расчет объема текущего бревна
-        switch (Len)
-        {
-            case '38':
-                V = L_3_8[D];
-                break;
-            case '58':
-                V = L_5_8[D];
-                break;
-        }
-
-        //Выводим объем текущего бревна
-        if(V)
-        {
-            $('#val').val(V+'cм3');
-        }
-        else if(D < 0 || D > 9)
-        {
-            errorMessages('НЕТ ДАННЫХ ДЛЯ ДИАМЕТРА');
-        }
-    }
-
-
-    //showParam();
-
-});
-
 //******************************************************
 //ВВОД ДАННЫХ С  ВИРТУАЛЬНОЙ КЛАВИАТУРЫ
 $(".numbers td").click(function(){
 
     if( $(this).attr('val') != 'next' &&
         $(this).attr('val') != 'del' &&
-        $(this).attr('val') != 'prev' 
+        $(this).attr('val') != 'prev'
     )
     {
         //к значению поля добавляем
@@ -208,43 +154,6 @@ $(".numbers td").click(function(){
         //общие расчеты после
         // каждого изменения поля
         Calculation();
-
-        //=======================================
-        //!!!!!!!!СТАРОЕ (удалить после отладки!!!)
-        //diam_temp = $(this).attr('val');
-        //
-        //Diam += diam_temp;
-        //
-        ////заполнение поля "диаметр"
-        //$('#diam').val(Diam);
-        //
-        //temp_diam = $('#diam').val();
-        //
-        ////Пропускаем только четные значения
-        //if( !(temp_diam%2) )
-        //{
-        //    D = $('#diam').val();
-        //    //Расчет объема текущего бревна
-        //    switch (Len)
-        //    {
-        //        case '38':
-        //            V = L_3_8[D];
-        //            break;
-        //        case '58':
-        //            V = L_5_8[D];
-        //            break;
-        //    }
-        //
-        //    //Выводим объем текущего бревна
-        //    if(V)
-        //    {
-        //        $('#val').val(V+'cм3');
-        //    }
-        //    else if(D < 0 || D > 9)
-        //    {
-        //        errorMessages('НЕТ ДАННЫХ ДЛЯ ДИАМЕТРА');
-        //    }
-        //===================================================
 
     }
     //перейти на ячейку вниз
@@ -357,7 +266,9 @@ $(".numbers td").click(function(){
 });
 //******************************************************
 
-//МЕЛКОДРЕВ
+//************************************************
+//*******РАЗНОЕ***********************************
+//************************************************
 //сбросить все параметры
 $('.reset-melcodrev').click(function(){
     allMelcodrevReset();
@@ -370,89 +281,13 @@ $('#Lmd').change(function(){
 //очистка поля при наведении
 $('.diam').focus(function(){
     var current_data = $(this).val();
-    //if(current_data == 0)
-    //{
-    //    $(this).val('');
-    //}
-    //else
     $(this).val(current_data).css('color','red');
 });
 //значение поля при потере фокуса
 $('.diam').blur(function(){
     var current_data = $(this).val();
-    //if(current_data == '')
-    //{
-    //    $(this).val(0);
-    //}
-    //else
-        $(this).val(current_data).css('color','black');
+    $(this).val(current_data).css('color','black');
 });
-
-//ввод значений
-//$('#diam12, #diam14, #diam16, #diam18').keyup(function(){
-//$('.diam').keyup(function(){
-$('.diam').change(function(){
-
-    //выбор длины
-    Lmd = $('#Lmd').val();
-    //console.log('Lmd = '+Lmd);
-    D = $(this).attr('diam');
-    //console.log('\nD = '+D);
-
-    //Расчет объема текущего бревна
-    switch (Lmd)
-    {
-        case 'LM_2_9':
-            V = LM_2_9[D];
-            break;
-        case 'LM_3_7':
-            V = LM_3_7[D];
-            break;
-        case 'LM_3_8':
-            V = LM_3_8[D];
-            break;
-        case 'LM_3_9':
-            V = LM_3_9[D];
-            break;
-    }
-
-    //console.log('V = '+V);
-    //получаем текущий id
-    var diam_temp = '#diam' + D;
-    var val_temp = '#val' + D;
-    //console.log('diam_temp = '+diam_temp);
-    //console.log('val_temp = '+val_temp);
-
-    $(val_temp).val($(diam_temp).val() * V);
-    //***************************************
-    //общие данные
-    var diam_total = 0;
-    var temp_diam_total = $('.diam');
-    //console.log(temp_var);
-    $.each(temp_diam_total, function(){
-        qty = parseInt($(this).val());
-        //console.log('qty = '+qty);
-        diam_total += qty;
-    });
-    //console.log('diam_total = ' + diam_total);
-    $('#diam_total').val(diam_total);
-    //***************************************
-    var val_total = 0;
-    var temp_val_total = $('.val');
-    //console.log('temp_val_total = '+temp_val_total);
-    $.each(temp_val_total, function(){
-        qty = parseInt($(this).val());
-        //console.log('qty = '+qty);
-        val_total += qty;
-    });
-    //console.log('val_total = ' + val_total);
-
-    $('#val_total').val(val_total);
-
-});
-//************************************************
-//*******РАЗНОЕ***********************************
-//************************************************
 
 //Скролл вверх
 $('.to-top').click(function () {

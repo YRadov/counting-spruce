@@ -98,6 +98,9 @@ h3 {
   margin: 0;
   text-align: center;
 }
+.handlers {
+  padding: 20px !important;
+}
 hr {
   margin: 10px auto;
 }
@@ -233,8 +236,8 @@ label {
   color: #008000;
 }
 .numbers td {
-  font-size: 30px;
-  padding: 5px;
+  font-size: 25px;
+  padding: 3px !important;
 }
 .numbers td:hover {
   background-color: #999;
@@ -316,6 +319,14 @@ label {
 }
 .container-one-admin {
   width: 50%;
+}
+.total-container {
+  background-color: #28b4cc;
+  border-top: 2px solid red;
+  border-bottom: 2px solid red;
+  font-size: 20px;
+  text-align: center;
+  width: 100%;
 }
 #row_up {
   position: fixed;

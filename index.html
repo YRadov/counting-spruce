@@ -29,7 +29,7 @@
       <div class="row">
 
         <div class="wrapper" id="wrapper">
-
+            <div class="error"></div>
 
             <!--НАЧАЛО МЕЛКОДРЕВА-->
             <div class="melcodrev">
@@ -192,17 +192,49 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <h4>ДЛИНА 3.8m</h4>
+                        <td colspan="2" class="handlers">
+                            <button  class="btn  btn-success save-data">
+                                СОХРАНИТЬ ДАННЫЕ
+                            </button>
                         </td>
-                        <td class="close-melcodrev">
-                            <button  class="btn btn-default reset-melcodrev">
-                                СБРОС
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="handlers">
+                            <button  class="btn btn-primary all-data">
+                                ДАННЫЕ ВСЕЙ ЗАГРУЗКИ
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="handlers">
+                            <button  class="btn  btn-danger delete-store">
+                                ОЧИСТИТЬ ПАМЯТЬ
                             </button>
                         </td>
                     </tr>
 
                 </table>
+
+                <div class="total-container">
+                    <h3>ВСЯ ЗАГРУЗКА</h3>
+                    <table class="table-responsive total-data">
+                        <tr>
+                            <td>
+                                шт
+                                <input type="text" class="form-control param total" id="diam_total_general" placeholder="0"  readonly readonly value="0">
+                            </td>
+                            <td>
+                                v
+                                <input type="text" class="form-control param total" id="val_total_general" placeholder="0"  readonly readonly value="0">
+                            </td>
+                            <td>
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                <input type="text" class="form-control param total" id="aver_diam_general" placeholder="0"  readonly readonly value="0">
+                            </td>
+                        </tr>
+                    </table>
+                </div> <!--.melcodrev-total-->
+
             </div><!-- .table-responsive -->
             <!--КОНЕЦ ФОРМЫ МЕЛКОДРЕВА-->
             <footer>

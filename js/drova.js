@@ -3,7 +3,21 @@
 //************************************************
 //очистка памяти
 //localStorage.clear();
-//showWebStoreData();
+
+//Общее кол-во бревен в контейнере
+var qtyTotal = 0;
+var general_qtyTotal = 0;
+//Общий объем бревен в контейнере
+var valTotal = 0;
+var general_valTotal = 0;
+//Сумма всех диаметров бревен в контейнере
+var diamTotal = 0;
+var general_diamTotal = 0;
+//Общий средний диаметр по контейнеру
+var averDiamTotal = 0;
+var general_averDiamTotal = 0;
+//-----------------------------------
+
 
 //Диаметр бревна
 var D = 0;
@@ -40,27 +54,29 @@ function allMelcodrevReset() {
     $('#diam8').trigger('focus');
     current_elem = $('#diam8');
     newFieldVal = '';
+    qtyTotal = 0;
+    valTotal = 0;
+    diamTotal = 0;
+    averDiamTotal = 0;
+    $('#aver_diam').val(0);
+
 }
-//--------------------------------------
 
-//расчет среднего диаметра
-function averDiam() {
-    
+//Показ сообщений
+function errorMessages(message){
+    $('.error').text(message).fadeIn().delay(2000).fadeOut();
 }
 
-
-//все расчеты
-function Calculation()
-{
+//ВСЕ РАСЧЕТЫ
+function Calculation() {
     //выбор длины
-    Lmd = $('#Lmd').val();
+    var Lmd = $('#Lmd').val();
     //console.log('Lmd = '+Lmd);
     D = $(current_elem).attr('diam');
     //console.log('\nD = '+D);
 
     //Расчет объема текущего бревна
-    switch (Lmd)
-    {
+    switch (Lmd) {
         case 'LM_2_9':
             V = LM_2_9[D];
             break;
@@ -90,40 +106,163 @@ function Calculation()
     //ОБЩЕЕ КОЛИЧЕСТВО+СУММА ВСЕХ ДИАМЕТРОВ
     var diam_total = 0;
     //сумма всех диаметров
-    var aver_diam = 0;
+    var sum_diam = 0;
     var temp_diam_total = $('.diam');
     //console.log(temp_var);
-    $.each(temp_diam_total, function(){
+    $.each(temp_diam_total, function () {
         var qty = parseInt($(this).val());
         //console.log('qty = '+qty);
         diam_total += qty;
         var current_diam = $(this).attr('diam');
-        aver_diam += current_diam * qty;
-        //console.log('aver_diam = '+aver_diam);
+        sum_diam += current_diam * qty;
+        //console.log('sum_diam = '+sum_diam);
     });
-    console.log('aver_diam end= '+aver_diam);
-
+    //console.log('sum_diam final = ' + sum_diam);
     //console.log('diam_total = ' + diam_total);
     //общее кол-во
-    $('#diam_total').val(diam_total);
-    //общий средний диаметр
-    $('#aver_diam').val((aver_diam/diam_total).toLocaleString());
+    $('#diam_total').val(diam_total.toLocaleString());
+    //общий средний диаметр !!!деление на ноль
+    //убираем деление на ноль
+    var aver_diam = sum_diam/((diam_total)?diam_total:1);
+    $('#aver_diam').val(aver_diam.toFixed(3));
     //***************************************
     //ОБЩИЙ ОБЪЕМ
     var val_total = 0;
     var temp_val_total = $('.val');
     //console.log('temp_val_total = '+temp_val_total);
-    $.each(temp_val_total, function(){
-        qty = parseInt($(this).val());
+    $.each(temp_val_total, function () {
+        var qty = parseInt($(this).val());
         //console.log('qty = '+qty);
         val_total += qty;
     });
     //console.log('val_total = ' + val_total);
 
-    $('#val_total').val(val_total);
+    $('#val_total').val(val_total.toLocaleString());
     //***************************************
+    //СОХРАНЕНИЕ ДАННЫХ ДЛЯ ВСЕЙ ПАРТИИ
+    qtyTotal = diam_total;
+    valTotal = val_total;
+    diamTotal = sum_diam;
+    averDiamTotal = aver_diam;
+    //-------------TEST-----------------------------------
+    console.log('При наборе с клавиатуры'
+        +'\nqtyTotal = ' + qtyTotal
+        + '\nvalTotal = ' + valTotal
+        + '\ndiamTotal = ' + diamTotal
+        + '\naverDiamTotal = ' + averDiamTotal
+    );
+    //----------------------------------------------------
+
 }
 
+//Сохранение общих данных по всему контейнеру
+function saveTotalData()
+{
+    var result = confirm('Данные будут добавлены к общим данным по контейнеру. Продолжить?');
+    if(result)
+    {
+        //новые значения
+        var temp_qtyTotal = parseInt(localStorage.getItem('general_qtyTotal'))   + qtyTotal*1;
+        var temp_valTotal = parseInt(localStorage.getItem('general_valTotal'))   + valTotal*1;
+        var temp_diamTotal = parseInt(localStorage.getItem('general_diamTotal')) + diamTotal*1;
+
+        localStorage.setItem('general_qtyTotal', temp_qtyTotal);
+        localStorage.setItem('general_valTotal', temp_valTotal);
+        localStorage.setItem('general_diamTotal', temp_diamTotal);
+
+        general_diamTotal = localStorage.getItem('general_diamTotal');
+        general_qtyTotal = localStorage.getItem('general_qtyTotal');
+        general_averDiamTotal = general_diamTotal / ((general_qtyTotal)?general_qtyTotal:1);
+
+        localStorage.setItem('general_averDiamTotal', general_averDiamTotal);
+
+        errorMessages('Данные сохранены');
+
+        //-------------TEST-----------------------------------
+        general_qtyTotal = localStorage.getItem('general_qtyTotal');
+        general_valTotal = localStorage.getItem('general_valTotal');
+        general_diamTotal = localStorage.getItem('general_diamTotal');
+        general_averDiamTotal = localStorage.getItem('general_averDiamTotal');
+        console.log('ПОСЛЕ СОХРАНЕНИЯ'
+            + '\n general_qtyTotal = '       + general_qtyTotal
+            + '\n general_valTotal = '      + general_valTotal
+            + '\n general_diamTotal = '     + general_diamTotal
+            + '\n general_averDiamTotal = ' + general_averDiamTotal
+        );
+        //----------------------------------------------------
+
+        //очищаем данные ввода, чтоб не дублировать
+        // ввод одних и тех же данных
+        qtyTotal = 0;
+        valTotal = 0;
+        diamTotal = 0;
+        averDiamTotal = 0;
+
+        //заполняем поля общих данных по контейнеру
+        $('#diam_total_general').val(general_qtyTotal);
+        $('#val_total_general').val(general_valTotal);
+        $('#aver_diam_general').val(parseFloat(general_averDiamTotal).toFixed(3));
+    }
+}
+
+//показ общих данных
+function showTotalData()
+{
+//только если в хранилище есть данные
+    if( localStorage.getItem("general_qtyTotal")
+        && localStorage.getItem("general_qtyTotal") > 0)
+    {
+        general_qtyTotal = localStorage.getItem('general_qtyTotal');
+        general_valTotal = localStorage.getItem('general_valTotal');
+        general_averDiamTotal = parseFloat(localStorage.getItem('general_averDiamTotal'));
+
+        //общее кол-во
+        $('#diam_total').val(general_qtyTotal.toLocaleString());
+        //общий объем
+        $('#val_total').val(general_valTotal.toLocaleString());
+        //общий средний диаметр
+        $('#aver_diam').val(general_averDiamTotal.toFixed(3));
+
+    }
+    else
+    {
+        errorMessages('Нет данных');
+    }
+}
+
+//удаление всех общих данных
+function deleteTotalData()
+{
+    var result = confirm('Данные по общей загрузке будут удалены. Продолжить?');
+    if(result)
+    {
+        localStorage.clear();
+        localStorage.setItem('general_qtyTotal', 0);
+        localStorage.setItem('general_valTotal', 0);
+        localStorage.setItem('general_diamTotal',0);
+        localStorage.setItem('general_averDiamTotal',0);
+        errorMessages('Данные по загрузке удалены');
+
+
+        //-------------TEST-----------------------------------
+        general_qtyTotal = localStorage.getItem('general_qtyTotal');
+        general_valTotal = localStorage.getItem('general_valTotal');
+        general_diamTotal = localStorage.getItem('general_diamTotal');
+        general_averDiamTotal = localStorage.getItem('general_averDiamTotal');
+        console.log('ПОСЛЕ ОЧИСТКИ ПАМЯТИ'
+            +'\ngeneral_qtyTotal = ' + general_qtyTotal
+            + '\ngeneral_valTotal = ' + general_valTotal
+            + '\ngeneral_diamTotal = ' + general_diamTotal
+            + '\ngeneral_averDiamTotal = ' + general_averDiamTotal
+        );
+        //----------------------------------------------------
+        //заполняем поля общих данных по контейнеру
+        $('#diam_total_general').val(0);
+        $('#val_total_general').val(0);
+        $('#aver_diam_general').val(0);
+
+    }
+}
 //************************************************
 //*******ПРОГРАММА********************************
 //************************************************
@@ -145,6 +284,58 @@ $('.diam').click(function(){
     current_elem = $(this);
     //сброс нового кол-вы для след. поля
     newFieldVal = '';
+});
+//******************************************************
+
+//qtyTotal = 0;
+//valTotal = 0;
+//diamTotal = 0;
+
+/**
+ * Если есть данные в хранилище, инициализируем
+ * все переменные сохраненными данными
+ */
+if( localStorage.getItem("general_qtyTotal")
+    && parseInt(localStorage.getItem("general_qtyTotal")) !== 0)
+{
+    errorMessages('Есть сохраненные данные');
+    //сохраненные данные по всей загрузке
+    general_qtyTotal = localStorage.getItem('general_qtyTotal');
+    general_valTotal = localStorage.getItem('general_valTotal');
+    general_diamTotal = localStorage.getItem('general_diamTotal');
+    general_averDiamTotal = localStorage.getItem('general_averDiamTotal');
+
+    //заполняем поля общих данных по контейнеру
+    $('#diam_total_general').val(general_qtyTotal);
+    $('#val_total_general').val(general_valTotal);
+    $('#aver_diam_general').val(parseFloat(general_averDiamTotal).toFixed(3));
+
+}
+else
+{
+    errorMessages('Пустой контейнер');
+}
+//******************************************************
+//сохранение общих данных
+$('.save-data').click(function(){
+    if(qtyTotal > 0)
+    {
+        saveTotalData();
+    }
+    else
+    {
+        errorMessages('Нет данных для сохранения');
+    }
+});
+//******************************************************
+//показ общих данных
+$('.all-data').click(function(){
+    showTotalData();
+});
+//******************************************************
+//удаление общих данных
+$('.delete-store').click(function(){
+    deleteTotalData();
 });
 //******************************************************
 //ВВОД ДАННЫХ С  ВИРТУАЛЬНОЙ КЛАВИАТУРЫ
@@ -183,7 +374,7 @@ $(".numbers td").click(function(){
              * Переназначить фокус!
              */
             var next_elem = $(current_elem).parent().parent().next().find("input:first");
-            console.log('Значение текущего элемента = '+next_elem.val());
+            //console.log('Значение текущего элемента = '+next_elem.val());
 
             //переназначаем текущий элемент
             current_elem = next_elem;

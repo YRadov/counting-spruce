@@ -34,7 +34,7 @@
             <!--НАЧАЛО МЕЛКОДРЕВА-->
             <div class="melcodrev">
                 <table class="table table-responsive table-bordered table-diam">
-                    <tr>
+                    <tr  class="md">
                         <td>
                             <h4>ДЛИНА</h4>
                             <select class="form-control" id="Lmd">
@@ -65,7 +65,7 @@
                             <input type="text" class="form-control param val" id="val10" placeholder="объем"  readonly readonly value="0">
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="md">
                         <td>
                             <i class="fa fa-ban"></i>
                             12 - <input type="text" diam="12" class="form-control param diam" id="diam12"  readonly value="0">
@@ -74,7 +74,7 @@
                             <input type="text" class="form-control param val" id="val12" placeholder="объем"  readonly readonly value="0">
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="md">
                         <td>
                             <i class="fa fa-ban"></i>
                             14 - <input type="text" diam="14" class="form-control param diam" id="diam14"  readonly value="0">
@@ -83,7 +83,7 @@
                             <input type="text" class="form-control param val" id="val14" placeholder="объем"  readonly readonly value="0">
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="md">
                         <td>
                             <i class="fa fa-ban"></i>
                             16 - <input type="text" diam="16" class="form-control param diam" id="diam16"  readonly value="0">
@@ -92,7 +92,7 @@
                             <input type="text" class="form-control param val" id="val16" placeholder="объем"  readonly readonly value="0">
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="md">
                         <td>
                             <i class="fa fa-ban"></i>
                             18 - <input type="text" diam="18" class="form-control param diam" id="diam18"  readonly value="0">
@@ -191,25 +191,37 @@
                             <input type="text" class="form-control param val" id="val38" placeholder="объем"  readonly readonly value="0">
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="md">
                         <td colspan="2" class="handlers">
                             <button  class="btn  btn-success save-data">
                                 СОХРАНИТЬ ДАННЫЕ
                             </button>
                         </td>
                     </tr>
-                    <!--<tr>-->
+                    <!--<tr class="md">-->
                         <!--<td colspan="2" class="handlers">-->
                             <!--<button  class="btn btn-primary all-data">-->
                                 <!--ДАННЫЕ ВСЕЙ ЗАГРУЗКИ-->
                             <!--</button>-->
                         <!--</td>-->
                     <!--</tr>-->
-                    <tr>
+                    <tr class="md">
                         <td colspan="2" class="handlers">
                             <button  class="btn  btn-danger delete-store">
                                 ОЧИСТИТЬ ПАМЯТЬ
                             </button>
+                        </td>
+                    </tr>
+                    <tr class="md switch-mode">
+                        <td colspan="2">
+                                <label>
+                                    <input type="radio" name="mode" id="el" value="1" checked>
+                                    Ель
+                                </label>
+                                <label>
+                                    <input type="radio" name="mode" id="md" value="0">
+                                    Мелкодрев
+                                </label>
                         </td>
                     </tr>
 

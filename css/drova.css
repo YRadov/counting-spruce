@@ -75,24 +75,19 @@ footer {
   color: #fff;
   height: 50px;
   line-height: 50px;
-  margin: 30px -10px -10px -10px;
   padding: 10px;
   position: relative;
 }
+footer .fa-calculator {
+  right: 130px;
+}
 footer a {
   color: #fff;
-}
-footer a:hover {
-  color: #f00;
 }
 footer i {
   color: #fff;
   position: absolute;
   right: 20px;
-}
-footer i:hover {
-  color: #f00;
-  cursor: pointer;
 }
 h3 {
   margin: 0;
@@ -268,7 +263,7 @@ label {
 }
 .melcodrev {
   background-color: #fff;
-  padding-bottom: 300px;
+  padding-bottom: 115px;
 }
 .melcodrev-total {
   background-color: #28b4cc;

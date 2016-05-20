@@ -34,19 +34,6 @@
             <!--НАЧАЛО МЕЛКОДРЕВА-->
             <div class="melcodrev">
                 <table class="table table-responsive table-bordered table-diam">
-                    <tr class="md switch-mode">
-                        <td colspan="2">
-                            <label>
-                                <input type="radio" name="mode" id="el" value="1" checked>
-                                Ель
-                            </label>
-                            |&nbsp;
-                            <label>
-                                <input type="radio" name="mode" id="md" value="0">
-                                Мелкодрев
-                            </label>
-                        </td>
-                    </tr>
 
                     <tr  class="md">
                         <td>
@@ -228,6 +215,20 @@
                             </button>
                         </td>
                     </tr>
+                    <tr class="md switch-mode">
+                        <td colspan="2">
+                            <label>
+                                <input type="radio" name="mode" id="el" value="1" checked>
+                                Ель
+                            </label>
+                            |&nbsp;
+                            <label>
+                                <input type="radio" name="mode" id="md" value="0">
+                                Мелкодрев
+                            </label>
+                        </td>
+                    </tr>
+
                 </table>
 
                 <div class="total-container">
@@ -290,7 +291,7 @@
   <!--НАЧАЛО КЛАВИАТУРЫ-->
   <!--<div class="table-responsive numbers hidden-lg hidden-md hidden-sm">-->
   <div class="table-responsive numbers">
-      <table class="table table-bordered">
+      <table id="numbers" class="table table-bordered">
           <tr>
               <td val="1"><b>1</b></td>
               <td val="2"><b>2</b></td>
@@ -317,6 +318,14 @@
               <!--<td class="ok" val="ok" title="закрыть"><i class="fa fa-check-square-o"></i></td>-->
           <!--</tr>-->
       </table>
+      <footer>
+          2016&nbsp;&copy;&nbsp;<a href="http://radov.xyz/" target="_blank">radov.xyz</a>
+          <i class="fa fa-calculator fa-2x" aria-hidden="true"></i>
+          <a href="#wrapper" class="to-top">
+              <i class="fa fa-caret-up fa-3x" title="вверх"></i>
+          </a>
+      </footer>
+
   </div><!-- .table-responsive -->
   <!--КОНЕЦ КЛАВИАТУРЫ-->
 

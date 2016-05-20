@@ -693,6 +693,11 @@ $(".numbers td").dblclick(function(){
     $(this).trigger('click');
 });
 
+//включение/выключение клавиатуры
+$('.fa-calculator').click(function(){
+    $( "#numbers" ).slideToggle() ;
+})
+
 //************************************************
 
 //ТАБЛИЦЫ СООТВЕТСТВИЙ ДИАМЕТРОВ И ОБЪЕМОВ

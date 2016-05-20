@@ -214,7 +214,6 @@ label {
 }
 .numbers {
   background-color: #fff;
-  /*display: none;*/
   position: fixed;
   bottom: -15px;
 }

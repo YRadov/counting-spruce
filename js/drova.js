@@ -695,7 +695,19 @@ $(".numbers td").dblclick(function(){
 
 //включение/выключение клавиатуры
 $('.fa-calculator').click(function(){
-    $( "#numbers" ).slideToggle() ;
+    $("#numbers" ).slideToggle('slow',function(){
+        var visible = $("#numbers").css('display');
+        //console.log(visible);
+        if(visible === 'none')
+        {
+            $('.melcodrev').css('padding-bottom','0');
+        }
+        else
+        {
+            $('.melcodrev').css('padding-bottom','115px');
+        }
+    }) ;
+    //console.log($("#numbers").css('visibility'));
 })
 
 //************************************************

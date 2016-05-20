@@ -59,6 +59,11 @@ var LM_3_7 = [];
 var LM_3_8 = [];
 var LM_3_9 = [];
 
+//min и max значения перехода курсора
+//диапазон 8 - 38
+// (int сравнивается с string с пом. != [нестрогое соответствие])
+var min_diam = 8;
+var max_diam = 38;
 //для фокусировки на след/пред поле
 var on_focus_elem;
 //текущщее поле ввода количества
@@ -117,8 +122,18 @@ function Calculation() {
         case 'LM_3_9':
             V = LM_3_9[D];
             break;
+        case 'L_5_8':
+            V = L_5_8[D];
+            break;
     }
+    //console.log ('V = '+V);
 
+    if(V == null)
+    {
+        errorMessages('Нет данных для диаметра');
+        $(current_elem).val(0);
+        return;
+    }
     //console.log('V = '+V);
     //получаем текущий id полей количества
     // и общего объема
@@ -173,12 +188,12 @@ function Calculation() {
     diamTotal = sum_diam;
     averDiamTotal = aver_diam;
     //-------------TEST-----------------------------------
-    console.log('При наборе с клавиатуры'
-        +'\nqtyTotal = ' + qtyTotal
-        + '\nvalTotal = ' + valTotal
-        + '\ndiamTotal = ' + diamTotal
-        + '\naverDiamTotal = ' + averDiamTotal
-    );
+    //console.log('При наборе с клавиатуры'
+    //    +'\nqtyTotal = ' + qtyTotal
+    //    + '\nvalTotal = ' + valTotal
+    //    + '\ndiamTotal = ' + diamTotal
+    //    + '\naverDiamTotal = ' + averDiamTotal
+    //);
     //----------------------------------------------------
 
 }
@@ -466,6 +481,8 @@ $('.delete-store').click(function(){
     deleteTotalData();
 });
 //******************************************************
+//******************************************************
+//******************************************************
 //ВВОД ДАННЫХ С  ВИРТУАЛЬНОЙ КЛАВИАТУРЫ
 $(".numbers td").click(function(){
 
@@ -494,7 +511,7 @@ $(".numbers td").click(function(){
         /**
          * Вниз только до диам.38
          */
-        if($(current_elem).attr('id') !== 'diam38')
+        if($(current_elem).attr('diam') != max_diam)
         {
             //следующий элемент
             /**
@@ -525,7 +542,7 @@ $(".numbers td").click(function(){
              * и фокус еа последнем элементе
              */
             $(this).css('color','red');
-            $('#diam38').trigger('focus');
+            $('#diam'+max_diam).trigger('focus');
         }
     }//перейти на ячейку вниз
 
@@ -535,7 +552,7 @@ $(".numbers td").click(function(){
         /**
          * Вверх только до диам.8
          */
-        if($(current_elem).attr('id') !== 'diam8')
+        if($(current_elem).attr('diam') != min_diam)
         {
             var next_elem = $(current_elem).parent().parent().prev().find("input:first");
             //console.log('Значение текущего элемента = '+next_elem.val());
@@ -557,7 +574,7 @@ $(".numbers td").click(function(){
         else
         {
             $(this).css('color','red');
-            $('#diam8').trigger('focus');
+            $('#diam'+min_diam).trigger('focus');
         }
     }//перейти на ячейку вверх
     //убрать последнюю цифру
@@ -602,26 +619,50 @@ $(".numbers td").click(function(){
     }
 });
 //******************************************************
+//******************************************************
+//******************************************************
 
 //************************************************
 //*******РАЗНОЕ***********************************
 //************************************************
+//изменения при переключении режимов
+function reloadMode(min, max)
+{
+    //переназначаем конечные точки
+    min_diam = min;
+    max_diam = max;
+    //фокус на первое поле
+    $('#diam'+min_diam).trigger('focus');
+    //активный элемент-первое поле в выборке
+    current_elem = $(window.document.activeElement);
+    //при переключении, кнопки в положение default
+    $('.prev').css('color','green');
+    $('.next').css('color','green');
+}
 //выбор ель/мелкодрев
 $('.switch-mode input:radio').click(function(){
     var mode = $(this).val();
-    if(mode == 1){
+    if(mode == 1){//ель
         //показать все
         $('.table-diam tr').show();
+        reloadMode(8, 38);
     }
-    else {
+    else {//мелкодрев
         //выбрать все кроме .md и скрыть
         $('.table-diam tr:not(.md)').hide();
+        //переназначаем конечные точки
+        reloadMode(12, 18);
     }
+    $('body,html').animate({
+        scrollTop: 0
+    }, 600);
 });
+
 //сбросить все параметры
 $('.reset-melcodrev').click(function(){
     allMelcodrevReset();
 });
+
 //сброс при изменении длины
 $('#Lmd').change(function(){
     allMelcodrevReset();
@@ -632,6 +673,7 @@ $('.diam').focus(function(){
     var current_data = $(this).val();
     $(this).val(current_data).css('color','red');
 });
+
 //значение поля при потере фокуса
 $('.diam').blur(function(){
     var current_data = $(this).val();
@@ -730,6 +772,9 @@ LM_3_9 = {
 
 L_3_8 = LM_3_8;
 L_5_8 = {
+    "8":43,
+    "10":62,
+    "12":89,
     "14":118,
     "16":149,
     "18":186,

@@ -17,10 +17,33 @@ var general_diamTotal = 0;
 var averDiamTotal = 0;
 var general_averDiamTotal = 0;
 //-----------------------------------
-//localStorage.setItem('general_qtyTotal', 0);
-//localStorage.setItem('general_valTotal', 0);
-//localStorage.setItem('general_diamTotal',0);
-//localStorage.setItem('general_averDiamTotal',0);
+//если нет сохраненных значений, инициализируем хранилище
+if(!localStorage.getItem('general_qtyTotal'))
+{
+    localStorage.setItem('general_qtyTotal', 0);
+    localStorage.setItem('general_valTotal', 0);
+    localStorage.setItem('general_diamTotal',0);
+    localStorage.setItem('general_averDiamTotal',0);
+
+    //данные по каждому диаметру
+    localStorage.setItem('general_8', 0);
+    localStorage.setItem('general_10', 0);
+    localStorage.setItem('general_12', 0);
+    localStorage.setItem('general_14', 0);
+    localStorage.setItem('general_16', 0);
+    localStorage.setItem('general_18', 0);
+    localStorage.setItem('general_20', 0);
+    localStorage.setItem('general_22', 0);
+    localStorage.setItem('general_24', 0);
+    localStorage.setItem('general_26', 0);
+    localStorage.setItem('general_28', 0);
+    localStorage.setItem('general_30', 0);
+    localStorage.setItem('general_32', 0);
+    localStorage.setItem('general_34', 0);
+    localStorage.setItem('general_36', 0);
+    localStorage.setItem('general_38', 0);
+
+}
 
 //Диаметр бревна
 var D = 0;
@@ -181,6 +204,9 @@ function saveTotalData()
 
         localStorage.setItem('general_averDiamTotal', general_averDiamTotal);
 
+        //сохраняем кол-во по каждому диаметру
+        addAllDiam();
+
         errorMessages('Данные сохранены');
 
         //-------------TEST-----------------------------------
@@ -188,11 +214,30 @@ function saveTotalData()
         general_valTotal = localStorage.getItem('general_valTotal');
         general_diamTotal = localStorage.getItem('general_diamTotal');
         general_averDiamTotal = localStorage.getItem('general_averDiamTotal');
+
+        //все диаметры
+
         console.log('ПОСЛЕ СОХРАНЕНИЯ'
             + '\n general_qtyTotal = '       + general_qtyTotal
             + '\n general_valTotal = '      + general_valTotal
             + '\n general_diamTotal = '     + general_diamTotal
             + '\n general_averDiamTotal = ' + general_averDiamTotal
+            //+'\n general_8 = '+localStorage.getItem('general_8')
+            //+'\n general_10 = '+localStorage.getItem('general_10')
+            //+'\n general_12 = '+localStorage.getItem('general_12')
+            //+'\n general_14 = '+localStorage.getItem('general_14')
+            //+'\n general_16 = '+localStorage.getItem('general_16')
+            //+'\n general_18 = '+localStorage.getItem('general_18')
+            //+'\n general_20 = '+localStorage.getItem('general_20')
+            //+'\n general_22 = '+localStorage.getItem('general_22')
+            //+'\n general_24 = '+localStorage.getItem('general_24')
+            //+'\n general_26 = '+localStorage.getItem('general_26')
+            //+'\n general_28 = '+localStorage.getItem('general_28')
+            //+'\n general_30 = '+localStorage.getItem('general_30')
+            //+'\n general_32 = '+localStorage.getItem('general_32')
+            //+'\n general_34 = '+localStorage.getItem('general_34')
+            //+'\n general_36 = '+localStorage.getItem('general_36')
+            //+'\n general_38 = '+localStorage.getItem('general_38')
         );
         //----------------------------------------------------
 
@@ -207,6 +252,8 @@ function saveTotalData()
         $('#diam_total_general').val(general_qtyTotal);
         $('#val_total_general').val(general_valTotal);
         $('#aver_diam_general').val(parseFloat(general_averDiamTotal).toFixed(3));
+        //выводим кол-во каждого диаметра
+        showTotalData();
     }
 }
 
@@ -217,16 +264,47 @@ function showTotalData()
     if( localStorage.getItem("general_qtyTotal")
         && localStorage.getItem("general_qtyTotal") > 0)
     {
-        general_qtyTotal = localStorage.getItem('general_qtyTotal');
-        general_valTotal = localStorage.getItem('general_valTotal');
-        general_averDiamTotal = parseFloat(localStorage.getItem('general_averDiamTotal'));
+        //ПОКАЗ ДАННЫХ В ВЕРХНЕЙ ПАНЕЛИ
 
-        //общее кол-во
-        $('#diam_total').val(general_qtyTotal.toLocaleString());
-        //общий объем
-        $('#val_total').val(general_valTotal.toLocaleString());
-        //общий средний диаметр
-        $('#aver_diam').val(general_averDiamTotal.toFixed(3));
+        //general_qtyTotal = localStorage.getItem('general_qtyTotal');
+        //general_valTotal = localStorage.getItem('general_valTotal');
+        //general_averDiamTotal = parseFloat(localStorage.getItem('general_averDiamTotal'));
+        ////общее кол-во(вверху)
+        //$('#diam_total').val(general_qtyTotal.toLocaleString());
+        ////общий объем
+        //$('#val_total').val(general_valTotal.toLocaleString());
+        ////общий средний диаметр
+        //$('#aver_diam').val(general_averDiamTotal.toFixed(3));
+
+//*********************************************************************************
+
+        //удаляем старую таблицу с диаметрами
+        $('.total-diam-data').remove();
+        //создаем таблицу с диаметрами
+        var append_data = '';
+        var count_diam;
+        for(var i = 8; i <= 38; i++ )
+        {
+            if(i%2 == 0)
+            {
+                count_diam = localStorage.getItem('general_'+i);
+                console.log(i+' = '+count_diam+' шт\n');
+                append_data +=
+                    '<tr class="additional-data">' +
+                    '<td><i class="fa fa-ban"></i>&nbsp;'+i+'</td>'+
+                    '<td>'+count_diam+' шт</td>'+
+                    '</tr>';
+            }
+        }
+        //добавляем к таблице с дан. по всему контейнеру
+        $('.total-container').append(
+            '<table class="table-responsive table-striped table-bordered total-diam-data">'+
+            append_data+
+            '</table>'
+        );
+
+
+//*********************************************************************************
 
     }
     else
@@ -246,6 +324,25 @@ function deleteTotalData()
         localStorage.setItem('general_valTotal', 0);
         localStorage.setItem('general_diamTotal',0);
         localStorage.setItem('general_averDiamTotal',0);
+
+        //данные по каждому диаметру
+        localStorage.setItem('general_8', 0);
+        localStorage.setItem('general_10', 0);
+        localStorage.setItem('general_12', 0);
+        localStorage.setItem('general_14', 0);
+        localStorage.setItem('general_16', 0);
+        localStorage.setItem('general_18', 0);
+        localStorage.setItem('general_20', 0);
+        localStorage.setItem('general_22', 0);
+        localStorage.setItem('general_24', 0);
+        localStorage.setItem('general_26', 0);
+        localStorage.setItem('general_28', 0);
+        localStorage.setItem('general_30', 0);
+        localStorage.setItem('general_32', 0);
+        localStorage.setItem('general_34', 0);
+        localStorage.setItem('general_36', 0);
+        localStorage.setItem('general_38', 0);
+
         errorMessages('Данные по загрузке удалены');
 
 
@@ -265,7 +362,8 @@ function deleteTotalData()
         $('#diam_total_general').val(0);
         $('#val_total_general').val(0);
         $('#aver_diam_general').val(0);
-
+        //удаляем старую таблицу с диаметрами
+        $('.total-diam-data').remove();
     }
 }
 
@@ -280,6 +378,20 @@ function scrollVisible(current_elem)
         scrollTop: position
     }, 600);
 
+}
+
+//сохранение колличества каждого диаметра
+function addAllDiam()
+{
+    var count_diam = 0;
+    for(var i = 8; i < 39; i++ )
+    {
+       if(i%2 == 0)
+        {
+            count_diam = parseInt($('#diam'+i).val()) + parseInt(localStorage.getItem('general_'+i));
+            localStorage.setItem('general_'+i, count_diam);
+        }
+    }
 }
 //************************************************
 //*******ПРОГРАММА********************************
@@ -324,6 +436,8 @@ if( localStorage.getItem("general_qtyTotal")
     $('#val_total_general').val(general_valTotal);
     $('#aver_diam_general').val(parseFloat(general_averDiamTotal).toFixed(3));
 
+    //таблица диаметров
+    showTotalData();
 }
 else
 {

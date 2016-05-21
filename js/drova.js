@@ -295,7 +295,7 @@ function showTotalData()
 
         //удаляем старую таблицу с диаметрами
         $('.total-diam-data').remove();
-        //создаем таблицу с диаметрами
+        //создаем новую таблицу с диаметрами
         var append_data = '';
         var count_diam;
         for(var i = 8; i <= 38; i++ )
@@ -429,6 +429,9 @@ $('.diam').click(function(){
     current_elem = $(this);
     //сброс нового кол-вы для след. поля
     newFieldVal = '';
+    //при переключении, кнопки в положение default
+    $('.prev').css('color','green');
+    $('.next').css('color','green');
 });
 //******************************************************
 

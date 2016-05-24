@@ -420,6 +420,12 @@ $(window).load(function(){
     on_focus_elem = $(window.document.activeElement);
     current_elem = on_focus_elem;
 });
+
+/**
+ * вначале клавиатура скрыта
+ */
+$("#numbers").css('display','none');
+
 /**
  * при клике на ячейку она получает фокус
  * и становится current_elem
@@ -432,6 +438,13 @@ $('.diam').click(function(){
     //при переключении, кнопки в положение default
     $('.prev').css('color','green');
     $('.next').css('color','green');
+    //включить клавиатуру, если выключена
+    var visible = $("#numbers").css('display');
+    //console.log(visible);
+    if(visible === 'none')
+    {
+        $('.fa-calculator').trigger('click');
+    }
 });
 //******************************************************
 
@@ -704,10 +717,12 @@ $('.fa-calculator').click(function(){
         if(visible === 'none')
         {
             $('.melcodrev').css('padding-bottom','0');
+            $('.fa-calculator').css('color','white');
         }
         else
         {
             $('.melcodrev').css('padding-bottom','115px');
+            $('.fa-calculator').css('color','red');
         }
     }) ;
     //console.log($("#numbers").css('visibility'));

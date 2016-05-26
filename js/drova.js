@@ -258,12 +258,10 @@ function getVolumeCarrentLog(Lmd, D)
 //предварительный показ общей суммы до сохранения
 function getTotalPreview()
 {
-    //общищий объем контейнера
-    var prev_total = parseInt($('#val_total_general').val());
     //общищий объем линии
     var prev_total_line = $('#val_total').val();
-    console.log('\n+++++++++++++++++++++++++++++++');
-    console.log('prev_total_line = '+prev_total_line);
+    //console.log('\n+++++++++++++++++++++++++++++++');
+    //console.log('prev_total_line = '+prev_total_line);
     /**
      * т.к. данные в локальном текстовом формате(прм. 12 325),
      * разбиваем строку по пробелам,
@@ -274,8 +272,22 @@ function getTotalPreview()
     var pattern = /\s/g; // g - глобальный поиск - все вхождения, а не только первое.
     prev_total_line = parseInt(prev_total_line.replace(pattern, ""));
 
-    var prev_show = prev_total_line + prev_total;
-    $('.val_preview').val(prev_show.toLocaleString());
+    //console.log('\n+++++++++++++++++++++++++++++++');
+    //console.log('prev_total_line = '+prev_total_line);
+
+    if(0 != prev_total_line)
+    {
+        //общищий объем контейнера
+        var prev_total = parseInt($('#val_total_general').val());
+
+        var prev_show = prev_total_line + prev_total;
+        $('.val_preview').val(prev_show.toLocaleString());
+    }
+    else
+    {
+        $('.val_preview').val(0);
+    }
+
 
 }
 
@@ -288,24 +300,6 @@ function Calculation() {
     D = $(current_elem).attr('diam');
     //console.log('\nD = '+D);
 
-    //Расчет объема текущего бревна
-    //switch (Lmd) {
-    //    case 'LM_2_9':
-    //        V = LM_2_9[D];
-    //        break;
-    //    case 'LM_3_7':
-    //        V = LM_3_7[D];
-    //        break;
-    //    case 'LM_3_8':
-    //        V = LM_3_8[D];
-    //        break;
-    //    case 'LM_3_9':
-    //        V = LM_3_9[D];
-    //        break;
-    //    case 'L_5_8':
-    //        V = L_5_8[D];
-    //        break;
-    //}
     getVolumeCarrentLog(Lmd,D);
     //console.log ('V = '+V);
 
@@ -364,7 +358,7 @@ function Calculation() {
     $('#val_total').val(val_total.toLocaleString());
     //----------------------------------------------
     //предварительный показ общей суммы до сохранения
-    //getTotalPreview();
+    getTotalPreview();
     //-----------------------------------------------
 
     //СОХРАНЕНИЕ ДАННЫХ ДЛЯ ВСЕЙ ПАРТИИ
@@ -721,11 +715,6 @@ $(".numbers td").click(function(){
         //общие расчеты после
         // каждого изменения поля
         Calculation();
-        //----------------------------------------------
-        //предварительный показ общей суммы до сохранения
-        getTotalPreview();
-        //-----------------------------------------------
-
 
     }
     //перейти на ячейку вниз
@@ -839,6 +828,7 @@ $(".numbers td").click(function(){
 
             }
         }
+
     }
 });
 //******************************************************

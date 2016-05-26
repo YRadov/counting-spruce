@@ -219,7 +219,7 @@ function allMelcodrevReset() {
     diamTotal = 0;
     averDiamTotal = 0;
     $('#aver_diam').val(0);
-
+    $('.val_preview').val(0);
 }
 
 //Показ сообщений
@@ -255,13 +255,38 @@ function getVolumeCarrentLog(Lmd, D)
 
 }
 
+//предварительный показ общей суммы до сохранения
+function getTotalPreview()
+{
+    //общищий объем контейнера
+    var prev_total = parseInt($('#val_total_general').val());
+    //общищий объем линии
+    var prev_total_line = $('#val_total').val();
+    console.log('\n+++++++++++++++++++++++++++++++');
+    console.log('prev_total_line = '+prev_total_line);
+    /**
+     * т.к. данные в локальном текстовом формате(прм. 12 325),
+     * разбиваем строку по пробелам,
+     * а потом снова склеиваем(уже без пробелов)/
+     * находим пробел регулярным выражением и вырезаем его
+     */
+    //var str = prev_total_line.split(" ");
+    var pattern = /\s/g; // g - глобальный поиск - все вхождения, а не только первое.
+    prev_total_line = parseInt(prev_total_line.replace(pattern, ""));
+
+    var prev_show = prev_total_line + prev_total;
+    $('.val_preview').val(prev_show.toLocaleString());
+
+}
+
+
 //ВСЕ РАСЧЕТЫ
 function Calculation() {
     //выбор длины
     var Lmd = $('#Lmd').val();
     //console.log('Lmd = '+Lmd);
     D = $(current_elem).attr('diam');
-    console.log('\nD = '+D);
+    //console.log('\nD = '+D);
 
     //Расчет объема текущего бревна
     //switch (Lmd) {
@@ -337,7 +362,11 @@ function Calculation() {
     //console.log('val_total = ' + val_total);
 
     $('#val_total').val(val_total.toLocaleString());
-    //***************************************
+    //----------------------------------------------
+    //предварительный показ общей суммы до сохранения
+    //getTotalPreview();
+    //-----------------------------------------------
+
     //СОХРАНЕНИЕ ДАННЫХ ДЛЯ ВСЕЙ ПАРТИИ
     qtyTotal = diam_total;
     valTotal = val_total;
@@ -388,28 +417,28 @@ function saveTotalData()
 
         //все диаметры
 
-        console.log('ПОСЛЕ СОХРАНЕНИЯ'
-            + '\n general_qtyTotal = '       + general_qtyTotal
-            + '\n general_valTotal = '      + general_valTotal
-            + '\n general_diamTotal = '     + general_diamTotal
-            + '\n general_averDiamTotal = ' + general_averDiamTotal
-            //+'\n general_8 = '+localStorage.getItem('general_8')
-            //+'\n general_10 = '+localStorage.getItem('general_10')
-            //+'\n general_12 = '+localStorage.getItem('general_12')
-            //+'\n general_14 = '+localStorage.getItem('general_14')
-            //+'\n general_16 = '+localStorage.getItem('general_16')
-            //+'\n general_18 = '+localStorage.getItem('general_18')
-            //+'\n general_20 = '+localStorage.getItem('general_20')
-            //+'\n general_22 = '+localStorage.getItem('general_22')
-            //+'\n general_24 = '+localStorage.getItem('general_24')
-            //+'\n general_26 = '+localStorage.getItem('general_26')
-            //+'\n general_28 = '+localStorage.getItem('general_28')
-            //+'\n general_30 = '+localStorage.getItem('general_30')
-            //+'\n general_32 = '+localStorage.getItem('general_32')
-            //+'\n general_34 = '+localStorage.getItem('general_34')
-            //+'\n general_36 = '+localStorage.getItem('general_36')
-            //+'\n general_38 = '+localStorage.getItem('general_38')
-        );
+        //console.log('ПОСЛЕ СОХРАНЕНИЯ'
+        //    + '\n general_qtyTotal = '       + general_qtyTotal
+        //    + '\n general_valTotal = '      + general_valTotal
+        //    + '\n general_diamTotal = '     + general_diamTotal
+        //    + '\n general_averDiamTotal = ' + general_averDiamTotal
+        //    //+'\n general_8 = '+localStorage.getItem('general_8')
+        //    //+'\n general_10 = '+localStorage.getItem('general_10')
+        //    //+'\n general_12 = '+localStorage.getItem('general_12')
+        //    //+'\n general_14 = '+localStorage.getItem('general_14')
+        //    //+'\n general_16 = '+localStorage.getItem('general_16')
+        //    //+'\n general_18 = '+localStorage.getItem('general_18')
+        //    //+'\n general_20 = '+localStorage.getItem('general_20')
+        //    //+'\n general_22 = '+localStorage.getItem('general_22')
+        //    //+'\n general_24 = '+localStorage.getItem('general_24')
+        //    //+'\n general_26 = '+localStorage.getItem('general_26')
+        //    //+'\n general_28 = '+localStorage.getItem('general_28')
+        //    //+'\n general_30 = '+localStorage.getItem('general_30')
+        //    //+'\n general_32 = '+localStorage.getItem('general_32')
+        //    //+'\n general_34 = '+localStorage.getItem('general_34')
+        //    //+'\n general_36 = '+localStorage.getItem('general_36')
+        //    //+'\n general_38 = '+localStorage.getItem('general_38')
+        //);
         //----------------------------------------------------
 
         //очищаем данные ввода, чтоб не дублировать
@@ -466,9 +495,9 @@ function showTotalData()
             {
 
                 count_diam = parseInt(localStorage.getItem('general_'+i));
-                console.log(i+' = '+count_diam+' шт\n');
+                //console.log(i+' = '+count_diam+' шт\n');
                 volume_current = getVolumeCarrentLog(Lmd,i+'');
-                console.log('volume_current['+i+'] = '+volume_current+' см3\n');
+                //console.log('volume_current['+i+'] = '+volume_current+' см3\n');
 
 
                 volume_summ_current = volume_current * count_diam;
@@ -535,12 +564,12 @@ function deleteTotalData()
         general_valTotal = localStorage.getItem('general_valTotal');
         general_diamTotal = localStorage.getItem('general_diamTotal');
         general_averDiamTotal = localStorage.getItem('general_averDiamTotal');
-        console.log('ПОСЛЕ ОЧИСТКИ ПАМЯТИ'
+        //console.log('ПОСЛЕ ОЧИСТКИ ПАМЯТИ'
             +'\ngeneral_qtyTotal = ' + general_qtyTotal
             + '\ngeneral_valTotal = ' + general_valTotal
             + '\ngeneral_diamTotal = ' + general_diamTotal
             + '\ngeneral_averDiamTotal = ' + general_averDiamTotal
-        );
+        //);
         //----------------------------------------------------
         //заполняем поля общих данных по контейнеру
         $('#diam_total_general').val(0);
@@ -548,6 +577,9 @@ function deleteTotalData()
         $('#aver_diam_general').val(0);
         //удаляем старую таблицу с диаметрами
         $('.total-diam-data').remove();
+        //удаляем предварительный общий объем
+        getTotalPreview()
+
     }
 }
 
@@ -555,7 +587,7 @@ function deleteTotalData()
 function scrollVisible(current_elem)
 {
     //позиция текущего элемента
-    console.log($(current_elem).offset().top);
+    //console.log($(current_elem).offset().top);
     var current_position = $(current_elem).offset().top;
     position = current_position - 80;
     $('body,html').animate({
@@ -669,8 +701,6 @@ $('.delete-store').click(function(){
     deleteTotalData();
 });
 //******************************************************
-//******************************************************
-//******************************************************
 //ВВОД ДАННЫХ С  ВИРТУАЛЬНОЙ КЛАВИАТУРЫ
 $(".numbers td").click(function(){
 
@@ -691,6 +721,11 @@ $(".numbers td").click(function(){
         //общие расчеты после
         // каждого изменения поля
         Calculation();
+        //----------------------------------------------
+        //предварительный показ общей суммы до сохранения
+        getTotalPreview();
+        //-----------------------------------------------
+
 
     }
     //перейти на ячейку вниз
@@ -806,8 +841,6 @@ $(".numbers td").click(function(){
         }
     }
 });
-//******************************************************
-//******************************************************
 //******************************************************
 
 //************************************************

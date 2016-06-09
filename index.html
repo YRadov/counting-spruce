@@ -208,13 +208,94 @@
                             </button>
                         </td>
                     </tr>
-                    <!--<tr class="md">-->
-                        <!--<td colspan="2" class="handlers">-->
-                            <!--<button  class="btn btn-primary all-data">-->
-                                <!--ДАННЫЕ ВСЕЙ ЗАГРУЗКИ-->
-                            <!--</button>-->
-                        <!--</td>-->
-                    <!--</tr>-->
+                    <tr class="md">
+                        <td colspan="2" class="handlers">
+                            <!--НАЧАЛО ДАННЫЕ КОНТЕЙНЕРА-->
+                            <div class="table-responsive container-data">
+                                <button id="show_cont" class="btn btn-default">
+                                    <h3>Данные контейнера</h3>
+                                </button>
+                                <table class="table table-bordered table-container-data">
+                                    <tr>
+                                        <td>№</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="cont-num" placeholder="№ контейнера">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Линия</td>
+                                        <td>
+                                            <select class="form-control" id="cont-line">
+                                                <option value="empty"></option>
+                                                <option value="CMA">CMA</option>
+                                                <option value="MSC">MSC</option>
+                                                <option value="MAERSK">MAERSK</option>
+                                                <option value="APL">APL</option>
+                                                <option value="ZIM">ZIM</option>
+                                                <option value="unknown">Другая</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>GROSS WT.</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="gross-wt">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TARE WT.</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="tare-wt">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PAYLOAD</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="pay-wt">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Порода</td>
+                                        <td>
+                                            <select class="form-control" id="cont-poroda">
+                                                <option value=""></option>
+                                                <option value="Сосна">Сосна</option>
+                                                <option value="Дуб">Дуб</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Грузил</td>
+                                        <td>
+                                            <!--<input type="text" class="form-control" id="emp-name" placeholder="Фамилия">-->
+                                            <select class="form-control" id="emp-name" placeholder="Фамилия">
+                                                <option value="2">...</option>
+                                                <option value="1">Радов</option>
+                                                <option value="3">Пархоменко</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button id="save_cont" class="btn btn-default">
+                                                СОХРАНИТЬ
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button id="reset_cont" class="btn btn-default">
+                                                ОЧИСТИТЬ
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div><!-- .container-data -->
+                            <!--КОНЕЦ ДАННЫЕ КОНТЕЙНЕРА-->
+
+                            <button id="sinhro" class="btn btn-primary sinhro">
+                                СИНХРОНИЗИРОВАТЬ
+                            </button>
+                        </td>
+                    </tr>
                     <tr class="md">
                         <td colspan="2" class="handlers">
                             <button  class="btn  btn-danger delete-store">

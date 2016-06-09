@@ -314,6 +314,7 @@ label {
   background-color: #fff;
   padding: 10px 0 20px;
   text-align: center;
+  display: none;
 }
 .container-one-admin {
   width: 50%;

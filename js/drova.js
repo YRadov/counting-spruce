@@ -3,7 +3,18 @@
 //************************************************
 //очистка памяти
 //localStorage.clear();
-
+//-------------------------------------
+//ДАННЫЕ ПО КОНТЕЙНЕРУ
+var contNum   = '';
+var contLine  = '';
+var contGross = '';
+var contTare  = '';
+var contPay   = '';
+//ПОРОДА ДЕРЕВА
+var contPoroda = '';
+//ДАННЫЕ ПО РАБОТНИКУ(ФИО)
+var Employer = '';
+//-------------------------------------
 //Общее кол-во бревен в контейнере
 var qtyTotal = 0;
 var general_qtyTotal = 0;
@@ -204,6 +215,25 @@ var position;
 //************************************************
 //*******ФУНКЦИИ**********************************
 //************************************************
+//Сброс данных контейнера
+function resetContainerData()
+{
+    contNum   = $('#cont-num').val('');
+    contLine  = $('#cont-line').val('');
+    contGross = $('#gross-wt').val('');
+    contTare  = $('#tare-wt').val('');
+    contPay   = $('#pay-wt').val('');
+    contPoroda   = $('#cont-poroda').val('');
+    Employer  = $('#emp-name').val('');
+    localStorage.setItem('contNum',   '');
+    localStorage.setItem('contLine',  '');
+    localStorage.setItem('contGross', '');
+    localStorage.setItem('contTare',  '');
+    localStorage.setItem('contPay',   '');
+    localStorage.setItem('contPoroda','');
+    localStorage.setItem('Employer',  '');
+
+}
 
 //Сброс всех параметров
 function allMelcodrevReset() {
@@ -220,6 +250,7 @@ function allMelcodrevReset() {
     averDiamTotal = 0;
     $('#aver_diam').val(0);
     $('.val_preview').val(0);
+    resetContainerData();
 }
 
 //Показ сообщений
@@ -654,6 +685,22 @@ if( localStorage.getItem("general_qtyTotal")
     && parseInt(localStorage.getItem("general_qtyTotal")) !== 0)
 {
     errorMessages('Есть сохраненные данные');
+    //сохраненные данные контейнера
+    contNum = localStorage.getItem('contNum');
+    contLine = localStorage.getItem('contLine');
+    contGross = localStorage.getItem('contGross');
+    contTare = localStorage.getItem('contTare');
+    contPay = localStorage.getItem('contPay');
+    contPoroda = localStorage.getItem('contPoroda');
+    Employer = localStorage.getItem('Employer');
+    $('#cont-num').val(contNum);
+    $('#cont-line').val(contLine);
+    $('#gross-wt').val(contGross);
+    $('#tare-wt').val(contTare);
+    $('#pay-wt').val(contPay);
+    $('#cont-poroda').val(contPoroda);
+    $('#emp-name').val(Employer);
+
     //сохраненные данные по всей загрузке
     general_qtyTotal = localStorage.getItem('general_qtyTotal');
     general_valTotal = localStorage.getItem('general_valTotal');
@@ -673,6 +720,47 @@ else
     errorMessages('Пустой контейнер');
 }
 //******************************************************
+//ПОКАЗАТЬ/СКРЫТЬ ДАННЫЕ КОНТЕЙНЕРА
+$('#show_cont').click(function(){
+    $( ".table-container-data" ).slideToggle() ;
+    return false;
+});
+
+//Сброс введенных данных контейнера
+$('#reset_cont').click(function(){
+    resetContainerData();
+    return false;
+});
+
+//ДАННЫЕ КОНТЕЙНЕРА СОХРАНИТЬ
+$('#save_cont').click(function() {
+    //получение
+    localStorage.setItem('contNum',$('#cont-num').val());
+    localStorage.setItem('contLine',$('#cont-line').val());
+    localStorage.setItem('contGross',$('#gross-wt').val());
+    localStorage.setItem('contTare',$('#tare-wt').val());
+    localStorage.setItem('contPay',$('#pay-wt').val());
+    localStorage.setItem('contPoroda',$('#cont-poroda').val());
+    localStorage.setItem('Employer',$('#emp-name').val());
+
+    //verification
+
+    contNum   = localStorage.getItem('contNum');
+    contLine  = localStorage.getItem('contLine');
+    contGross = localStorage.getItem('contGross');
+    contTare  = localStorage.getItem('contTare');
+    contPay   = localStorage.getItem('contPay');
+    contPoroda = localStorage.getItem('contPoroda');
+    Employer  = localStorage.getItem('Employer');
+
+    //alert (contNum);
+
+    errorMessages('Данные сохранены');
+
+});
+
+//******************************************************
+
 //сохранение общих данных
 $('.save-data').click(function(){
     if(qtyTotal > 0)
@@ -921,6 +1009,73 @@ $('.fa-calculator').click(function(){
         }
     }) ;
     //console.log($("#numbers").css('visibility'));
-})
+});
+//СИНХРОНИЗАЦИЯ
+$('#sinhro').click(function() {
+    var result = confirm('Данные будут отправлены в хранилище. Продолжить?');
+    if(result)
+    {
+        contNum   = localStorage.getItem('contNum');
+        contLine  = localStorage.getItem('contLine');
+        contGross = localStorage.getItem('contGross');
+        contTare  = localStorage.getItem('contTare');
+        contPay   = localStorage.getItem('contPay');
+        contPoroda = localStorage.getItem('contPoroda');
+        Employer  = localStorage.getItem('Employer');
+        Styk      = localStorage.getItem('Styk');
+        //Отправка данных только с заполненным контейнером
+        if(
+            contNum    &&
+            contLine   &&
+            contGross  &&
+            contTare   &&
+            contPay    &&
+            contPoroda &&
+            Employer
+        )
+        {
+
+            var DATA = {
+                "contNum"  : contNum,
+                "contLine" : contLine,
+                "contGross": contGross,
+                "contTare" : contTare,
+                "contPay"  : contPay,
+                "contPoroda" : contPoroda,
+                "Employer" : Employer,
+                "Partia"   : Partia,
+                "Styk"     : Styk
+            };
+
+            //изменен ключ входа
+            $.ajax({
+                //"url": "controller.php",
+                //локальный сервер
+                //"url": "http://les2.server/controller.php",
+                //удаленный сервер
+                "url": "http://les2.radov.xyz/controller.php",
+                "type": "post",
+                "data": {
+                    "save_loading": "yesss",
+                    "DATA": DATA
+                },
+                "dataType": 'json',
+                "success": function (data) {
+                    errorMessages(data.message);
+                    alert ('Данные успешно отправлены.');
+                }
+            });
+            //конец отправки данных на сервер
+        }
+        else
+        {
+            errorMessages('Введены не все данные контейнера');
+        }
+
+    }
+
+    return false;
+});
+
 
 

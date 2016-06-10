@@ -316,6 +316,19 @@ label {
   text-align: center;
   display: none;
 }
+.container-data .table-container-data .form-control {
+  height: 25px;
+  padding: 0;
+  text-align: center;
+}
+.container-data .table-container-data select {
+  font-size: 14px;
+  text-align: center;
+}
+.container-data .table-container-data td {
+  font-size: 14px;
+  text-align: center;
+}
 .container-one-admin {
   width: 50%;
 }

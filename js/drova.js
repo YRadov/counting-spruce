@@ -1022,7 +1022,6 @@ $('#sinhro').click(function() {
         contPay   = localStorage.getItem('contPay');
         contPoroda = localStorage.getItem('contPoroda');
         Employer  = localStorage.getItem('Employer');
-        Styk      = localStorage.getItem('Styk');
         //Отправка данных только с заполненным контейнером
         if(
             contNum    &&
@@ -1034,6 +1033,27 @@ $('#sinhro').click(function() {
             Employer
         )
         {
+            //данные о загрузке
+            Partia = {
+            "diam_8"  :localStorage.getItem('general_8'),
+            "diam_10" :localStorage.getItem('general_10'),
+            "diam_12" :localStorage.getItem('general_12'),
+            "diam_14" :localStorage.getItem('general_14'),
+            "diam_16" :localStorage.getItem('general_16'),
+            "diam_18" :localStorage.getItem('general_18'),
+            "diam_20" :localStorage.getItem('general_20'),
+            "diam_22" :localStorage.getItem('general_22'),
+            "diam_24" :localStorage.getItem('general_24'),
+            "diam_26" :localStorage.getItem('general_26'),
+            "diam_28" :localStorage.getItem('general_28'),
+            "diam_30" :localStorage.getItem('general_30'),
+            "diam_32" :localStorage.getItem('general_32'),
+            "diam_34" :localStorage.getItem('general_34'),
+            "diam_36" :localStorage.getItem('general_36'),
+            "diam_38" :localStorage.getItem('general_38'),
+            "total_qty" :localStorage.getItem('general_qtyTotal'),
+            "total_vol" :localStorage.getItem('general_valTotal')
+            };
 
             var DATA = {
                 "contNum"  : contNum,
@@ -1043,20 +1063,18 @@ $('#sinhro').click(function() {
                 "contPay"  : contPay,
                 "contPoroda" : contPoroda,
                 "Employer" : Employer,
-                "Partia"   : Partia,
-                "Styk"     : Styk
+                "Partia"   : Partia
             };
-
-            //изменен ключ входа
+            //console.log(Partia);
             $.ajax({
                 //"url": "controller.php",
                 //локальный сервер
-                //"url": "http://les2.server/controller.php",
+                "url": "http://les2.server/controller.php",
                 //удаленный сервер
-                "url": "http://les2.radov.xyz/controller.php",
+                //"url": "http://les2.radov.xyz/controller.php",
                 "type": "post",
                 "data": {
-                    "save_loading": "yesss",
+                    "melkodrev": "yes",
                     "DATA": DATA
                 },
                 "dataType": 'json',
